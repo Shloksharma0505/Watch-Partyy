@@ -1,0 +1,15 @@
+{
+  "name": "youtube-watch-party",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Real-time YouTube Watch Party with role-based access (React + Node + Socket.IO)",
+  "scripts": {
+    "build": "npm --prefix client install --include=dev && npm --prefix client run build && npm --prefix server install",
+    "start": "node server/src/index.js",
+    "dev:server": "npm --prefix server run dev",
+    "dev:client": "npm --prefix client run dev",
+    "install:all": "npm --prefix server install && npm --prefix client install",
+    "test": "npm --prefix server test"
+  },
+  "engines": { "node": ">=18" }
+}
