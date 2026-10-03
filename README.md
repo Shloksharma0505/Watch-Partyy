@@ -2,7 +2,7 @@
 
 > A real-time YouTube Watch Party application that allows multiple users to watch YouTube videos together in synchronized rooms.
 
-**Watch Party** is a full-stack real-time web application where users can create or join a shared room and watch YouTube videos together. The application keeps video playback synchronized between participants and provides real-time communication and room management features.
+Watch Party is a full-stack real-time web application where users can create or join a shared room, watch YouTube videos together, communicate through real-time chat, and stay synchronized during playback.
 
 ---
 
@@ -10,90 +10,90 @@
 
 ### 🌐 Live Application
 
-**[Watch Party – Live Demo](https://watch-partyy-client-1226.vercel.app)**
+**https://watch-partyy-client-1226.vercel.app**
+
+### ⚙️ Backend Health Check
+
+**https://watch-partyy.onrender.com/health**
 
 ### 💻 GitHub Repository
 
-**[Watch-Partyy](https://github.com/Shloksharma0505/Watch-Partyy)**
+**https://github.com/Shloksharma0505/Watch-Partyy**
 
 ---
 
 ## ✨ Features
 
-* 🎬 Create and join watch rooms
-* 🔗 Shareable room links
-* ▶️ Synchronized YouTube playback
-* ⏸️ Play / Pause synchronization
-* ⏩ Seek synchronization
-* 🎥 Change YouTube videos in real time
-* 👑 Host-controlled playback
-* 👥 Real-time participant list
-* 💬 Real-time chat
-* 🙋 Join request handling
-* 🛡️ Role-based permissions
-* 🔄 Host and participant management
-* ⚡ Real-time updates using Socket.IO
-* 🗄️ MongoDB-based room persistence
-* 📱 Responsive user interface
-* ☁️ Production deployment using Vercel and Render
+- 🎬 Create and join watch rooms
+- 🔗 Shareable room links
+- ▶️ Real-time YouTube playback synchronization
+- ⏸️ Play / Pause synchronization
+- ⏩ Seek synchronization
+- 🎥 Real-time video change synchronization
+- 👑 Host-controlled playback
+- 👥 Real-time participant updates
+- 💬 Real-time chat
+- 🙋 Join request handling
+- 🛡️ Role-based permissions
+- 🔄 Participant and room management
+- ⚡ Real-time communication using Socket.IO
+- 🗄️ MongoDB-based room persistence
+- 📱 Responsive user interface
+- ☁️ Public deployment using Vercel and Render
 
 ---
 
-## 🧠 How It Works
+# 🏗️ Architecture Overview
 
-The application follows a simple real-time room-based architecture:
-
-```text
-User
-  │
-  ▼
-Create / Join Room
-  │
-  ▼
-React Frontend
-  │
-  │ Socket.IO
-  ▼
-Node.js + Express Server
-  │
-  ▼
-Room Manager
-  │
-  ├── Participants
-  ├── Roles & Permissions
-  ├── Playback State
-  ├── Chat
-  └── Requests
-  │
-  ▼
-MongoDB
-```
-
-When a user creates a room, a unique room is created and the user becomes the host. Other users can join the room using the shared room link.
-
-Once participants are connected, the server maintains the room state and broadcasts important changes to all connected users.
-
----
-
-## 🎥 YouTube Video Synchronization
-
-Users watch YouTube videos directly through the embedded YouTube player.
-
-The application accepts a **YouTube video URL**, extracts the video information and loads it into the YouTube IFrame Player.
-
-Playback actions such as:
-
-* Play
-* Pause
-* Seek
-* Video change
-
-are sent through Socket.IO and synchronized with the other participants.
+The application follows a client-server architecture where **Socket.IO/WebSockets** provide real-time communication between users and the backend.
 
 ```text
+                    ┌──────────────────┐
+                    │      Users       │
+                    │ Desktop / Mobile │
+                    └────────┬─────────┘
+                             │
+                             ▼
+                    ┌──────────────────┐
+                    │ Vercel Frontend  │
+                    │ React + Vite     │
+                    └────────┬─────────┘
+                             │
+                        Socket.IO
+                       Real-Time Data
+                             │
+                             ▼
+                    ┌──────────────────┐
+                    │ Render Backend   │
+                    │ Node + Express   │
+                    │    Socket.IO     │
+                    └────────┬─────────┘
+                             │
+                             ▼
+                    ┌──────────────────┐
+                    │   Room Manager   │
+                    │                  │
+                    │ Participants     │
+                    │ Roles            │
+                    │ Playback State   │
+                    │ Chat             │
+                    │ Requests         │
+                    └────────┬─────────┘
+                             │
+                             ▼
+                    ┌──────────────────┐
+                    │  MongoDB Atlas   │
+                    │ Persistent Data  │
+                    └──────────────────┘
+⚡ WebSocket / Real-Time Flow
+
+Socket.IO is used to keep all participants synchronized in real time.
+
+For example, when the host pauses the video:
+
 Host
  │
- │ Play / Pause / Seek
+ │ Pause Event
  ▼
 Socket.IO Client
  │
@@ -101,174 +101,188 @@ Socket.IO Client
 Socket.IO Server
  │
  ▼
-Room State
+Room Manager
  │
+ │ Update Room State
  ▼
-Broadcast to Participants
+Broadcast Event
  │
- ├──────────────► User 2
+ ├──────────────► Participant 1
  │
- └──────────────► User 3
-```
+ ├──────────────► Participant 2
+ │
+ └──────────────► Participant 3
 
-This allows everyone in the room to stay on the same video and playback position.
+The same mechanism is used for:
 
----
+Play
+Pause
+Seek
+Video change
+Participant updates
+Chat messages
+Join requests
+Role changes
+Room state updates
+🎥 YouTube Video Flow
 
-## 👑 Roles & Permissions
+The application uses the YouTube IFrame Player API to play YouTube videos inside the watch room.
 
-The application uses role-based access within a watch room.
+Users provide a YouTube video URL.
 
-### Host
+YouTube URL
+     │
+     ▼
+Extract Video ID
+     │
+     ▼
+YouTube IFrame Player
+     │
+     ▼
+Playback Event
+     │
+     ▼
+Socket.IO
+     │
+     ▼
+Server Room State
+     │
+     ▼
+Other Participants
 
-The host has the highest level of control over the room and can manage participants and shared playback.
+This allows multiple users in the same room to watch the same YouTube video together.
 
-### Moderator
+👑 Roles & Permissions
 
-A moderator can assist with room management and perform the permissions allowed by the application.
+The watch room supports different participant roles.
 
-### Participant
+Host
 
-Participants can watch the video, communicate through chat and request restricted actions where required.
+The host is responsible for controlling the shared room and managing participants.
 
-### Viewer
+Moderator
 
-Viewers can participate in watching the shared video while restricted actions remain controlled by the room's permissions.
+The moderator can perform the actions permitted by the application's role system.
 
-The backend validates restricted actions before applying changes to the shared room state.
+Participant
 
----
+Participants can watch the video, communicate through chat and request restricted actions.
 
-## 💬 Real-Time Chat
+Viewer
 
-Participants can communicate using the built-in real-time chat.
+Viewers can participate in watching the shared content while restricted actions remain controlled by the room permissions.
 
-```text
+The backend validates restricted actions before modifying the shared room state.
+
+💬 Real-Time Chat
+
+Users can communicate with other participants through the room chat.
+
 User
  │
  ▼
 Chat Message
  │
  ▼
-Socket.IO
+Socket.IO Client
  │
  ▼
-Server
+Socket.IO Server
  │
  ▼
 Room
  │
  ▼
-Other Participants
-```
+Broadcast
+ │
+ ├──────────► User 2
+ │
+ └──────────► User 3
 
-Messages are delivered to connected users without requiring a page refresh.
+Messages are delivered to connected participants in real time without refreshing the page.
 
----
+👥 Room Flow
+User
+ │
+ ▼
+Create Room / Join Room
+ │
+ ▼
+Connect to Socket.IO
+ │
+ ▼
+Enter Watch Room
+ │
+ ▼
+Load YouTube Video
+ │
+ ▼
+Watch Together
+ │
+ ├── Playback Sync
+ ├── Chat
+ ├── Participant Updates
+ └── Requests
 
-## 👥 Room Management
+When a room is created, the creator becomes the host. Other users can join using the room link.
 
-Each watch party is organized around a room.
+The backend maintains the room state and broadcasts changes to connected participants.
 
-A room contains information such as:
+🗄️ Database
 
-* Room ID
-* Participants
-* User roles
-* Current YouTube video
-* Playback state
-* Chat messages
-* Room activity
+MongoDB Atlas is used for persistent storage.
 
-The server acts as the central authority for room state and real-time synchronization.
+The application stores room-related information such as:
 
----
-
-## 🗄️ Database
-
-MongoDB is used to persist room information.
-
-The application uses the MongoDB Node.js driver to communicate with MongoDB Atlas.
-
-Stored room information includes:
-
-```text
 Room
+│
 ├── Room ID
+│
 ├── Playback State
+│   ├── Video
+│   ├── Playing / Paused
+│   └── Current Position
+│
 ├── Participants
 │   ├── User ID
 │   ├── Username
 │   ├── Role
 │   ├── Join Time
 │   └── Connection Status
+│
 ├── Chat
+│
 ├── Created At
+│
 └── Updated At
-```
 
-MongoDB allows room information to persist beyond the application's in-memory state.
+The database layer is implemented using the MongoDB Node.js driver.
 
----
-
-## ⚡ Real-Time Communication
-
-**Socket.IO** is used as the real-time communication layer between the frontend and backend.
-
-It handles:
-
-* Room events
-* Participant updates
-* Playback synchronization
-* Chat messages
-* Join requests
-* Role updates
-* Room state changes
-
-This provides instant updates between users connected to the same watch room.
-
----
-
-## 🛠️ Tech Stack
-
-### Frontend
-
-* React
-* Vite
-* JavaScript
-* CSS
-* YouTube IFrame Player API
-* Socket.IO Client
-
-### Backend
-
-* Node.js
-* Express.js
-* Socket.IO
-* JavaScript
-
-### Database
-
-* MongoDB
-* MongoDB Atlas
-* MongoDB Node.js Driver
-
-### Deployment
-
-* Vercel — Frontend
-* Render — Backend
-* MongoDB Atlas — Database
-
-### Version Control
-
-* Git
-* GitHub
-
----
-
-## 📁 Project Structure
-
-```text
+🛠️ Tech Stack
+Frontend
+React
+Vite
+JavaScript
+CSS
+YouTube IFrame Player API
+Socket.IO Client
+Backend
+Node.js
+Express.js
+Socket.IO
+JavaScript
+Database
+MongoDB
+MongoDB Atlas
+MongoDB Node.js Driver
+Deployment
+Vercel — Frontend
+Render — Backend
+MongoDB Atlas — Database
+Version Control
+Git
+GitHub
+📁 Project Structure
 Watch-Partyy/
 │
 ├── client/
@@ -317,149 +331,179 @@ Watch-Partyy/
 ├── package.json
 ├── render.yaml
 └── README.md
-```
-
----
-
-## ▶️ Run Locally
-
-### 1. Clone the repository
-
-```bash
+⚙️ Local Setup
+1. Clone the Repository
 git clone https://github.com/Shloksharma0505/Watch-Partyy.git
+
 cd Watch-Partyy
-```
-
-### 2. Install dependencies
-
-```bash
+2. Install Dependencies
 npm run install:all
-```
 
-### 3. Configure environment variables
+Or install manually:
 
-Create the required environment variables for the backend.
+cd client
+npm install
+
+cd ../server
+npm install
+🔐 Environment Variables
+
+Create a .env file inside the server directory.
 
 Example:
 
-```env
 MONGODB_URI=your_mongodb_connection_string
 MONGODB_DB=youtube_watch_party
 CLIENT_ORIGIN=http://localhost:5173
-```
 
-### 4. Start the backend
+For production, configure the required environment variables directly on Render.
 
-```bash
+Never commit database credentials or private environment variables to GitHub.
+
+▶️ Run the Application Locally
+Start Backend
+
+From the project root:
+
 npm run dev:server
-```
 
-### 5. Start the frontend
+The backend runs on:
+
+http://localhost:3001
+Start Frontend
 
 Open another terminal:
 
-```bash
 npm run dev:client
-```
 
-The application will normally be available at:
+The frontend runs on:
 
-```text
 http://localhost:5173
-```
+☁️ Deployment
 
----
+The application is publicly deployed using Vercel and Render.
 
-## ☁️ Deployment
+                         GitHub
+                           │
+                ┌──────────┴──────────┐
+                ▼                     ▼
+             Vercel                 Render
+                │                     │
+                ▼                     ▼
+         React + Vite          Node + Express
+                                      │
+                                      ▼
+                                MongoDB Atlas
+Frontend
 
-The project uses a separate frontend and backend deployment architecture.
+The React/Vite frontend is deployed on Vercel.
 
-```text
-                    GitHub
-                       │
-             ┌─────────┴─────────┐
-             ▼                   ▼
-          Vercel              Render
-             │                   │
-             ▼                   ▼
-        React + Vite      Node + Express
-                                 │
-                                 ▼
-                           MongoDB Atlas
-```
+Backend
 
-### Frontend
+The Node.js, Express and Socket.IO backend is deployed on Render.
 
-The React/Vite frontend is deployed on **Vercel**.
+Database
 
-### Backend
+MongoDB Atlas is used for persistent room data.
 
-The Node.js, Express and Socket.IO backend is deployed on **Render**.
+📹 Demo
 
-### Database
+A short demonstration of the application can cover:
 
-Room persistence is handled through **MongoDB Atlas**.
+Creating a watch room
+Joining a room using the room link
+Loading a YouTube video
+Play / Pause synchronization
+Seek synchronization
+Changing the video
+Real-time chat
+Participant management
+Role-based permissions
+Live Demo
 
----
+https://watch-partyy-client-1226.vercel.app
 
-## 🔐 Environment Variables
+Demo Video
 
-Environment variables are used to keep deployment-specific configuration outside the source code.
+Add the demo video link here when available:
 
-Example:
+Demo Video: <YOUR-DEMO-VIDEO-LINK>
+Screenshots
 
-```env
-MONGODB_URI=your_mongodb_connection_string
-MONGODB_DB=youtube_watch_party
-CLIENT_ORIGIN=http://localhost:5173
-```
+Screenshots of the main application screens can also be added here to demonstrate the UI and watch-room functionality.
 
-For production, configure the appropriate values directly in the hosting platform.
+🧪 Application Verification
 
-> Never commit passwords, database credentials or private environment variables to GitHub.
+The deployed application can be verified through the following:
 
----
+Create a room
+Join the room from another browser/device
+Load a YouTube video
+Test Play/Pause synchronization
+Test seeking
+Change the YouTube video
+Send chat messages
+Check participant updates
+Test role-based permissions
+Verify MongoDB room persistence
+📚 Code Walkthrough
 
-## 📚 What This Project Demonstrates
+The project is structured so that the main application logic can be explained through the following components:
+
+Frontend
+React components manage the user interface.
+Player.jsx handles the YouTube player.
+Chat.jsx manages real-time chat UI.
+People.jsx displays participants.
+Requests.jsx handles room requests.
+socket.js manages Socket.IO communication.
+Backend
+index.js starts the server.
+app.js configures the Express application.
+SocketHandler.js manages real-time socket events.
+RoomManager.js manages room state.
+permissions.js handles role-based authorization.
+database.js provides MongoDB persistence.
+Real-Time Logic
+
+The backend receives events from connected clients, validates permissions, updates the room state and broadcasts the resulting state to the relevant participants.
+
+🎯 Key Learning Areas
 
 This project demonstrates practical experience with:
 
-* Full-stack web development
-* React component-based development
-* REST and server-side application structure
-* Real-time communication with Socket.IO
-* WebSocket-based state synchronization
-* Room-based application architecture
-* Role-based permissions
-* YouTube IFrame Player integration
-* MongoDB persistence
-* CORS configuration
-* Environment variables
-* Responsive UI development
-* Git and GitHub
-* Vercel and Render deployment
+Full-stack web development
+React component architecture
+Node.js backend development
+Express.js
+Socket.IO / WebSockets
+Real-time state synchronization
+Room-based architecture
+Role-based permissions
+YouTube IFrame Player API
+MongoDB persistence
+CORS
+Environment variables
+Git and GitHub
+Vercel deployment
+Render deployment
+👨‍💻 Author
+Shlok Sharma
 
----
+Full Stack Developer
 
-## 👨‍💻 Author
+Built using:
 
-### Shlok Sharma
+React • Node.js • Express.js • Socket.IO • MongoDB
 
-**Full Stack Developer**
+GitHub
 
-Built with:
-
-**React • Node.js • Express.js • Socket.IO • MongoDB**
-
-**GitHub:**
 https://github.com/Shloksharma0505
 
-**Project:**
+Project Repository
+
 https://github.com/Shloksharma0505/Watch-Partyy
 
+📄 License
 
----
-
-<p align="center">
-  🎬 <strong>Watch together. Stay synchronized.</strong>
-</p>
+This project was created for educational, internship and project demonstration purposes.
