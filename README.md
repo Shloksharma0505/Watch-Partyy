@@ -12,10 +12,6 @@ Watch Party is a full-stack real-time web application where users can create or 
 
 **https://watch-partyy-client-1226.vercel.app**
 
-### ⚙️ Backend Health Check
-
-**https://watch-partyy.onrender.com/health**
-
 ### 💻 GitHub Repository
 
 **https://github.com/Shloksharma0505/Watch-Partyy**
@@ -47,7 +43,7 @@ Watch Party is a full-stack real-time web application where users can create or 
 
 The application follows a client-server architecture where **Socket.IO/WebSockets** provide real-time communication between users and the backend.
 
-```text
+
                     ┌──────────────────┐
                     │      Users       │
                     │ Desktop / Mobile │
@@ -258,30 +254,7 @@ Room
 
 The database layer is implemented using the MongoDB Node.js driver.
 
-🛠️ Tech Stack
-Frontend
-React
-Vite
-JavaScript
-CSS
-YouTube IFrame Player API
-Socket.IO Client
-Backend
-Node.js
-Express.js
-Socket.IO
-JavaScript
-Database
-MongoDB
-MongoDB Atlas
-MongoDB Node.js Driver
-Deployment
-Vercel — Frontend
-Render — Backend
-MongoDB Atlas — Database
-Version Control
-Git
-GitHub
+
 📁 Project Structure
 Watch-Partyy/
 │
@@ -405,32 +378,6 @@ The Node.js, Express and Socket.IO backend is deployed on Render.
 Database
 
 MongoDB Atlas is used for persistent room data.
-
-📹 Demo
-
-A short demonstration of the application can cover:
-
-Creating a watch room
-Joining a room using the room link
-Loading a YouTube video
-Play / Pause synchronization
-Seek synchronization
-Changing the video
-Real-time chat
-Participant management
-Role-based permissions
-Live Demo
-
-https://watch-partyy-client-1226.vercel.app
-
-Demo Video
-
-Add the demo video link here when available:
-
-Demo Video: <YOUR-DEMO-VIDEO-LINK>
-Screenshots
-
-Screenshots of the main application screens can also be added here to demonstrate the UI and watch-room functionality.
 
 🧪 Application Verification
 
