@@ -14,10 +14,6 @@ The application uses **React, Node.js, Express.js, Socket.IO, and MongoDB** to p
 
 [**Watch Party – Live Application**](https://watch-partyy-client-1226.vercel.app/)
 
-### ⚙️ Backend Health Check
-
-[**Backend – Health Check**](https://watch-partyy.onrender.com/health)
-
 ### 💻 GitHub Repository
 
 [**Watch-Partyy**](https://github.com/Shloksharma0505/Watch-Partyy)
