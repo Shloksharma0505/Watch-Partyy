@@ -14,10 +14,6 @@ The application also provides role-based access control, participant action requ
 
 https://watch-partyy-client-1226.vercel.app
 
-### Backend Health Check
-
-https://watch-partyy.onrender.com/health
-
 ### GitHub Repository
 
 https://github.com/Shloksharma0505/Watch-Partyy
